@@ -1,8 +1,11 @@
 <template>
-  <div id="app">
-    
-  </div>
+    <div id="app" @touchmove.prevent>
+      <router-view></router-view>
+    </div>
 </template>
 
-<style lang="stylus">
-</style>
+<script>
+export default {}
+</script>
+
+<style lang="stylus"></style>
