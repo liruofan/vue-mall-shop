@@ -81,7 +81,7 @@ export default {
   data() {
     return {
       current_page: {
-        cid: null,
+        cid: 5,
         pagenum: 1,
         pagesize: 10
       },
@@ -102,7 +102,11 @@ export default {
     }
   },
   created() {
-    this.current_page.cid = this.$route.params.cid
+    if (!this.$route.params.cid) {
+      return
+    }else{
+      this.current_page.cid = this.$route.params.cid
+    }
     this._getListData()
     
   },

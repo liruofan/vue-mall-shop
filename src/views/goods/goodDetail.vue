@@ -60,12 +60,19 @@ export default {
   },
   computed: {},
   created() {
+    console.log('goodDetail created')
     this.getGoodDetialData()
   },
   mounted() {
-    
+    console.log('goodDetail mounted')
   },
-  watch: {},
+  watch: {
+      $route(to,from) {
+        if (from.name === 'search') {
+          this.getGoodDetialData()
+        }
+      }
+  },
   methods: {
     async getGoodDetialData() {
       let goods_id = this.$route.params.goods_id

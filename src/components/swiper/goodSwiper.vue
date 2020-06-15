@@ -26,6 +26,9 @@ export default {
   mounted() {},
   methods: {
     _initSwiper() {
+      if (this.mySwiper) {
+        this.mySwiper.destroy(false)
+      }
       this.mySwiper = new Swiper('.swiper-container', {
         autoplay: {
           disableOnInteraction: false,

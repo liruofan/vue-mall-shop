@@ -14,7 +14,7 @@
       />
       <div class="list_con">
         <ul v-show="list.length">
-          <li class="list_item" v-for="(item,index) in list" :key="index">
+          <li class="list_item" v-for="(item,index) in list" :key="index" @click="goDetail(item.goods_id)">
             <i class="iconfont icon-fangdajing"></i>
             <span>{{item.goods_name}}</span>
           </li>
@@ -91,8 +91,11 @@ export default {
         }
         
       },
-      clear () {
-        
+      goDetail (goods_id) {
+        this.$router.push({
+        name: 'gooddetail',
+        params: { goods_id }
+      })
       }
     },
     components: {

@@ -40,6 +40,7 @@ export default {
 @import "~common/css/variable.styl"
 .search_container
   width 100%
+  margin-top .46rem
   box-sizing border-box
   padding .05rem
   background-color $theme-red
