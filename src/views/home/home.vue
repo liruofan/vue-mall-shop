@@ -68,7 +68,7 @@ export default {
 
 <style scoped lang="stylus">
 .home
-  margin-bottom .56rem
+  margin-bottom 0.56rem
   .tab_list
     width 100%
     margin-top 0.1rem

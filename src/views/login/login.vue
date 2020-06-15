@@ -8,8 +8,26 @@
     </div>
     <form class="form">
       <van-field class="input" v-model="user" clearable placeholder="请输入登陆账号" />
-      <van-field class="input" v-if="closeEye" @click="handleClick" type="password" right-icon="closed-eye" v-model="password" clearable placeholder="请输入登陆密码" />
-      <van-field class="input" v-else @click="handleClick" type="text" right-icon="eye-o" v-model="password" clearable placeholder="请输入登陆密码" />
+      <van-field
+        class="input"
+        v-if="closeEye"
+        @click="handleClick"
+        type="password"
+        right-icon="closed-eye"
+        v-model="password"
+        clearable
+        placeholder="请输入登陆密码"
+      />
+      <van-field
+        class="input"
+        v-else
+        @click="handleClick"
+        type="text"
+        right-icon="eye-o"
+        v-model="password"
+        clearable
+        placeholder="请输入登陆密码"
+      />
       <!-- <input class="input" type="text" placeholder="请输入登陆账号">
       <input class="input" type="text" placeholder="请输入登陆密码">-->
       <div class="register">
@@ -26,9 +44,9 @@ export default {
   props: {},
   data() {
     return {
-      user:'',
-      password:'',
-      closeEye:true
+      user: '',
+      password: '',
+      closeEye: true
     }
   },
   computed: {},
@@ -36,12 +54,12 @@ export default {
   mounted() {},
   watch: {},
   methods: {
-    handleClick (e) {
+    handleClick(e) {
       let closeIcon = document.getElementsByClassName('van-icon-closed-eye')[0]
       let openIcon = document.getElementsByClassName('van-icon-eye-o')[0]
       if (e.target === closeIcon) {
         this.closeEye = false
-      } else if(e.target === openIcon) {
+      } else if (e.target === openIcon) {
         this.closeEye = true
       }
     }
@@ -79,7 +97,7 @@ export default {
       &:nth-of-type(2)
         margin 0
       .van-icon
-        font-size .2rem
+        font-size 0.2rem
       input::-webkit-input-placeholder
         color $font-color2
     .register

@@ -3,7 +3,7 @@
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(item,index) in items" :key="index">
-          <img class="img_item" :src="item.pics_mid_url" @click="check_big_pic(index)"/>
+          <img class="img_item" :src="item.pics_mid_url" @click="check_big_pic(index)" />
         </div>
       </div>
       <div class="swiper-pagination"></div>
@@ -31,7 +31,7 @@ export default {
       }
       this.mySwiper = new Swiper('.swiper-container', {
         autoplay: {
-          disableOnInteraction: false,
+          disableOnInteraction: false
         },
         pagination: {
           el: '.swiper-pagination',
@@ -42,10 +42,10 @@ export default {
     },
     check_big_pic(index) {
       ImagePreview({
-        images:this.items.map((item)=>{
+        images: this.items.map(item => {
           return item.pics_big_url
         }),
-        startPosition: index,
+        startPosition: index
       })
     }
   },
@@ -74,9 +74,9 @@ export default {
       position absolute
       left 50%
       transform translateX(-50%)
-      background-color rgba(0,0,0,0.4)
+      background-color rgba(0, 0, 0, 0.4)
       color #fff
-      border-radius .1rem
-      width .3rem
-      padding .04rem
+      border-radius 0.1rem
+      width 0.3rem
+      padding 0.04rem
 </style>

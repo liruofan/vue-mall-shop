@@ -1,11 +1,10 @@
 <template>
-    <nav class="nav_footer">
-      <li v-for="item in navs" :key="item.title" @click="navToggle(item)">
-        <img :src="current_name === item.name ? item.activeUrl : item.url" />
-        <span :class="{activeClass: current_name === item.name}">{{item.title}}</span>
-      </li>
-    </nav>
-  
+  <nav class="nav_footer">
+    <li v-for="item in navs" :key="item.title" @click="navToggle(item)">
+      <img :src="current_name === item.name ? item.activeUrl : item.url" />
+      <span :class="{activeClass: current_name === item.name}">{{item.title}}</span>
+    </li>
+  </nav>
 </template>
 
 <script>
@@ -52,13 +51,13 @@ export default {
       }
     }
   },
-  watch:{
-    $route (newRouter) {
+  watch: {
+    $route(newRouter) {
       if (
-        newRouter.name === 'home' 
-        || newRouter.name ==='category' 
-        || newRouter.name === 'cart' 
-        || newRouter.name === 'profile'
+        newRouter.name === 'home' ||
+        newRouter.name === 'category' ||
+        newRouter.name === 'cart' ||
+        newRouter.name === 'profile'
       ) {
         this.current_name = newRouter.name
       }

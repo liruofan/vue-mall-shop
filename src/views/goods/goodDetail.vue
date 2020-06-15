@@ -12,7 +12,7 @@
     </div>
     <ul class="pic_list">
       <li v-for="(pic,index) in pics" :key="index">
-        <img class="pic_item" :src="pic">
+        <img class="pic_item" :src="pic" />
       </li>
     </ul>
 
@@ -20,9 +20,9 @@
       <i class="iconfont icon-arrow-lift"></i>
     </div>
     <transition name="toggle">
-    <Header text="商品详情" v-show="!backIcon_show">
-      <i slot="head_left" class="iconfont icon-arrow-lift" @click="$router.back()"></i>
-    </Header>
+      <Header text="商品详情" v-show="!backIcon_show">
+        <i slot="head_left" class="iconfont icon-arrow-lift" @click="$router.back()"></i>
+      </Header>
     </transition>
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" color="#07c160" />
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       goodInfo: {},
-      pics:[
+      pics: [
         require('../../common/images/goodDetail1.jpg'),
         require('../../common/images/goodDetail2.jpg'),
         require('../../common/images/goodDetail3.jpg'),
@@ -53,25 +53,22 @@ export default {
         require('../../common/images/goodDetail6.jpg'),
         require('../../common/images/goodDetail7.jpg'),
         require('../../common/images/goodDetail8.jpg'),
-        require('../../common/images/goodDetail9.png'),
+        require('../../common/images/goodDetail9.png')
       ],
-      backIcon_show:true
+      backIcon_show: true
     }
   },
   computed: {},
   created() {
-    console.log('goodDetail created')
     this.getGoodDetialData()
   },
-  mounted() {
-    console.log('goodDetail mounted')
-  },
+  mounted() {},
   watch: {
-      $route(to,from) {
-        if (from.name === 'search') {
-          this.getGoodDetialData()
-        }
+    $route(to, from) {
+      if (from.name === 'search') {
+        this.getGoodDetialData()
       }
+    }
   },
   methods: {
     async getGoodDetialData() {
@@ -100,11 +97,11 @@ export default {
     //   //     }
     //   // })
     // },
-    scroll () {
+    scroll() {
       let scrolltop = this.$refs.goodsDetail.scrollTop
-      if (scrolltop>100) {
+      if (scrolltop > 100) {
         this.backIcon_show = false
-      }else{
+      } else {
         this.backIcon_show = true
       }
     }
@@ -139,10 +136,10 @@ export default {
     display flex
     justify-content center
     align-items center
-    font-size .3rem
+    font-size 0.3rem
     color #fff
     border-radius 50%
-    background-color rgba(0,0,0,0.5)
+    background-color rgba(0, 0, 0, 0.5)
     .icon-arrow-lift
       color #fff
       font-size $header-arrow-font-size
@@ -172,7 +169,7 @@ export default {
       -webkit-line-clamp 2
       overflow hidden
       text-align justify
-      margin-bottom .08rem
+      margin-bottom 0.08rem
     .delivery_info
       color $font-color2
       display flex

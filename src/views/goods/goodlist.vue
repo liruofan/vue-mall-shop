@@ -61,9 +61,9 @@
       </div>
       <van-empty v-if="initIcon" description="暂无商品" />
     </div>
-      <transition name="fade">
-        <router-view></router-view>
-      </transition>
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -104,11 +104,10 @@ export default {
   created() {
     if (!this.$route.params.cid) {
       return
-    }else{
+    } else {
       this.current_page.cid = this.$route.params.cid
     }
     this._getListData()
-    
   },
   mounted() {},
   watch: {},
