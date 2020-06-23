@@ -146,8 +146,6 @@ export default {
         try {
           this.bscroll.disable()
           const { message } = await searchGoodList(cid, 1, pagesize)
-          // this.goods = message.goods
-          // this.sort2()
           this.isPullUpLoad = false
           this.bscroll.openPullUp()
           this.current_page.pagenum = 2
@@ -169,12 +167,9 @@ export default {
         this.bscroll.disable()
         this.isPullUpLoad = true
         if ((pagenum - 1) * pagesize > total) {
-          //  console.log(this.isPullUpLoad)
-          //  console.log('pagenum为'+pagenum, 'pagesize为'+pagesize,'触发了最后一次的上拉加载')
           this.isPullUpLoad = false
           this.bscroll.closePullUp()
           this.bscroll.finishPullUp()
-          // this.haveproduction = false
           this.bscroll.enable()
           return
         }
@@ -195,16 +190,6 @@ export default {
           this.bscroll.finishPullUp()
           this.bscroll.enable()
         }
-        // const { message } = await searchGoodList(cid, pagenum, pagesize)
-        // this.current_page.pagenum ++
-        // this.goods = this.goods.concat(message.goods)
-        // this.isPullUpLoad = false
-        // this.sort2()
-        // this.$nextTick(()=>{
-        //   this.bscroll.refresh()
-        //   this.bscroll.finishPullUp()
-        //   this.bscroll.enable()
-        // })
       })
     },
     //成功的下拉刷新收尾工作

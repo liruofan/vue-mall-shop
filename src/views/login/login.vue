@@ -6,8 +6,8 @@
     <div class="logo_container">
       <img src="../../common/images/taologo.png" />
     </div>
-    <form class="form">
-      <van-field class="input" v-model="user" clearable placeholder="请输入登陆账号" />
+    <form class="form" @submit.prevent="login">
+      <van-field class="input" v-model="username" clearable placeholder="请输入登陆账号" />
       <van-field
         class="input"
         v-if="closeEye"
@@ -33,20 +33,23 @@
       <div class="register">
         <span @click="$router.replace('/register')">免费注册</span>
       </div>
-      <button class="login_btn">登 陆</button>
+      <van-button hairline :disabled="loading" :loading="loading" class="login_btn">登 陆</van-button>
     </form>
   </div>
 </template>
 
 <script>
 import Header from 'components/header/header'
+import {userLogin} from 'api'
+import {diaLog} from 'base/dialog'
 export default {
   props: {},
   data() {
     return {
-      user: '',
-      password: '',
-      closeEye: true
+      username: '',
+      password:'',
+      closeEye:true,
+      loading:false
     }
   },
   computed: {},
@@ -62,6 +65,27 @@ export default {
       } else if (e.target === openIcon) {
         this.closeEye = true
       }
+    },
+    async login () {
+      const {username,password} = this
+      if (!username.trim()) {
+        return diaLog({message:'用户名不能为空'})
+      }else if (!password.trim()) {
+        return diaLog({message:'密码不能为空'})
+      }
+      this.loading = true
+      const result = await userLogin(username,password)
+       if (result.status === 422) {
+        this.loading = false
+        return diaLog({message:result.message})
+       }
+       this.username = ''
+       this.password = ''
+       this.loading = false
+       const {token} = result.message
+       localStorage.setItem('token',token)
+       this.$store.dispatch('reqUserInfo')
+       this.$router.replace('/profile')
     }
   },
   components: {
@@ -90,7 +114,7 @@ export default {
       width 100%
       box-sizing border-box
       font-size 0.16rem
-      padding 0 0.05rem
+      padding 0 0.05rem 0.05rem
       height 0.34rem
       border-bottom 0.01rem solid $theme-red
       margin-bottom 0.38rem

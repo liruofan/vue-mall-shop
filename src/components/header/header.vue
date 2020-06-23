@@ -57,5 +57,6 @@ export default {
     transform translateX(-50%)
   .head_right
     font-size 0.16rem
-    float left
+    margin-right .1rem
+    float right
 </style>

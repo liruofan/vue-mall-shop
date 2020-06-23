@@ -10,6 +10,11 @@ import goodlist from 'views/goods/goodlist'
 import goodDetail from 'views/goods/goodDetail'
 import login from 'views/login/login'
 import register from 'views/register/register'
+import set from 'views/set/set'
+import setInfo from 'views/setInfo/setInfo'
+import revisename from 'views/revisename/revisename'
+import addresslist from 'views/address/addressList'
+import addressedit from 'views/address/addressEdit'
 Vue.use(VueRouter)
 
   const routes = [
@@ -57,7 +62,55 @@ Vue.use(VueRouter)
         component:profile,
         meta:{
           navfooter:true
-        }
+        },
+        children:[
+          {
+            path:'/profile/set',
+            name:'set',
+            component:set,
+            meta:{
+              navfooter:true
+            },
+            children:[
+              {
+                path:'/profile/set/setInfo',
+                name:'setInfo',
+                component:setInfo,
+                meta:{
+                  navfooter:true
+                },
+                children:[
+                  {
+                    path:'/profile/set/setInfo/revisename',
+                    name:'revisename',
+                    component:revisename,
+                    meta:{
+                      navfooter:true
+                    }
+                  },
+                  {
+                    path:'/profile/set/setInfo/addresslist',
+                    name:'addresslist',
+                    component:addresslist,
+                    meta:{
+                      navfooter:true
+                    },
+                    children:[
+                      {
+                        path:'/profile/set/setInfo/addressedit',
+                        name:'addressedit',
+                        component:addressedit,
+                        meta:{
+                          navfooter:true
+                        },
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },{
         path: '/home',
         name:'home',
@@ -97,12 +150,11 @@ const router = new VueRouter({
   routes
 })
 router.beforeEach((to,from,next)=>{
-  if (to.path === '/cart' || to.path === '/profile') {
+  if (to.name === 'cart' || to.name === 'profile') {
     if (!localStorage.getItem('token')) {
-      next('/login')
-    }else{
-      next()
+     return next('/login')
     }
+     next()
   }
   next()
 })

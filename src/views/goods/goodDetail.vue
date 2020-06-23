@@ -125,7 +125,8 @@ export default {
   top 0
   right 0
   bottom 0
-  overflow-y scroll
+  overflow scroll
+  --webkit-overflow-scrolling touch
   .icon_wrap
     position fixed
     z-index 999

@@ -10,13 +10,23 @@ import '../src/common/js/rem'
 import 'common/css/index.styl'
 import { 
   Toast,
+  Dialog,
   Loading,
   Search,
   Empty,
   GoodsAction,
   GoodsActionIcon,
   GoodsActionButton,
-  Field
+  Field,
+  Form,
+  Button,
+  Cell, 
+  CellGroup,
+  Uploader,
+  Picker,
+  Popup,
+  AddressList,
+  AddressEdit
 } from 'vant'
 
 Fastclick.attach(document.body)
@@ -25,6 +35,7 @@ Vue.use(VueLazyload,{
   loading:LoadImg,
 })
 Vue.use(Toast)
+Vue.use(Dialog)
 Vue.use(Loading)
 Vue.use(Empty)
 Vue.use(Search)
@@ -32,8 +43,16 @@ Vue.use(GoodsAction)
 Vue.use(GoodsActionIcon)
 Vue.use(GoodsActionButton)
 Vue.use(Field)
+Vue.use(Form)
+Vue.use(Button)
+Vue.use(Cell)
+Vue.use(CellGroup)
+Vue.use(Uploader)
+Vue.use(Picker)
+Vue.use(Popup)
+Vue.use(AddressList)
+Vue.use(AddressEdit)
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,

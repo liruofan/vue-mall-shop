@@ -45,7 +45,8 @@ export default {
     this._initCategory()
     this._initFloors()
   },
-  mounted() {},
+  mounted() {
+  },
   watch: {},
   methods: {
     async _initCategory() {
