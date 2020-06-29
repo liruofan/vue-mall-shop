@@ -26,10 +26,10 @@
     </transition>
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" color="#07c160" />
-      <van-goods-action-icon icon="cart-o" text="购物车" />
+      <van-goods-action-icon icon="cart-o" text="购物车" :to="{name:'cart'}"/>
       <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" />
-      <van-goods-action-button type="warning" text="加入购物车" />
-      <van-goods-action-button type="danger" text="立即购买" />
+      <van-goods-action-button @click="addGood" type="warning" text="加入购物车" />
+      <van-goods-action-button type="danger" text="立即购买" :to="{name:'cart'}"/>
     </van-goods-action>
   </div>
 </template>
@@ -38,7 +38,7 @@
 import Header from 'components/header/header'
 import goodSwiper from 'components/swiper/goodSwiper'
 import BScroll from '@better-scroll/core'
-import { getGoodDetail } from 'api'
+import { getGoodDetail,addCartGood } from 'api'
 export default {
   props: {},
   data() {
@@ -78,6 +78,12 @@ export default {
       // this.$nextTick(()=>{
       //   this._initBScroll()
       // })
+    },
+    async addGood () {
+      let {goods_id,goods_name,goods_small_logo,goods_price} = this.goodInfo
+      let query = {goods_id,goods_name,goods_small_logo,goods_price}
+      this.$store.dispatch('reqAddCartGood',query)
+      
     },
     // _initBScroll () {
     //   // this.detailScroll = new BScroll(this.$refs.goodsDetail,{

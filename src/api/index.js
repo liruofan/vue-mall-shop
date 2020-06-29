@@ -29,3 +29,13 @@ export const addDeliveryAddress = (deliveryaddressObj) => axios.post('/user/addd
 export const updateDeliveryAddress = (deliveryaddressObj) => axios.post('/user/updatedeliveryaddress',{...deliveryaddressObj})
 //删除收获地址
 export const deleteDeliveryAddress = (id) => axios.post('/user/deletedeliveryaddress',{id})
+//添加商品到购物车
+export const addCartGood = (good_id,good_name,img_url,good_price,count) => axios.post('/user/addcartgood',{good_id,good_name,img_url,good_price,count})
+//修改商品数量
+export const reviseCount = (good_id,count) => axios.post('/user/reviseCount',{good_id,count})
+//修改商品选中状态
+export const reviseCheck = (good_id,checked) => axios.post('/user/reviseChecked',{good_id,checked})
+//修改全部商品的选中状态
+export const reviseAllCheck = (checked) => axios.post('/user/reviseAllChecked',{checked})
+//删除所有选中的商品
+export const deleteCheckedGood = () => axios.post('/user/deleteCartGood')

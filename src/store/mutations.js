@@ -20,10 +20,21 @@ const mutations = {
   },
   [type.DELETE_DELIVERY_ADDRESS] (state,data) {
     state.userInfo.deliveryAdress = data
-    //  const result = state.userInfo.deliveryAdress.filter((item)=>{
-    //    return item.id !== id
-    // })
-    // state.userInfo.deliveryAdress = result
+  },
+  [type.ADD_CART_GOOD] (state,data) {
+    state.userInfo.cart = data
+  },
+  [type.REVISE_CART_COUNT] (state,data) {
+    state.userInfo.cart = data
+  },
+  [type.REVISE_CART_CHECKED] (state,data) {
+    state.userInfo.cart = data
+  },
+  [type.REVISE_CART_ALL_CHECKED] (state,data) {
+    state.userInfo.cart = data
+  },
+  [type.DELETE_CART_GOOD] (state,data) {
+    state.userInfo.cart = data
   }
 }
 export default mutations

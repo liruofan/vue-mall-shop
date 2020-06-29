@@ -26,7 +26,9 @@ import {
   Picker,
   Popup,
   AddressList,
-  AddressEdit
+  AddressEdit,
+  Checkbox,
+  Stepper
 } from 'vant'
 
 Fastclick.attach(document.body)
@@ -52,6 +54,8 @@ Vue.use(Picker)
 Vue.use(Popup)
 Vue.use(AddressList)
 Vue.use(AddressEdit)
+Vue.use(Checkbox)
+Vue.use(Stepper)
 Vue.config.productionTip = false
 new Vue({
   router,

@@ -1,5 +1,6 @@
 import * as method from 'api'
 import * as type from './mutation-types'
+import { Toast } from 'vant'
 const actions = {
   //请求用户个人信息
   async reqUserInfo ({commit}) {
@@ -29,14 +30,63 @@ const actions = {
   //请求修改收获地址
   async reqUpdateDeliveryAddress ({commit},contentObj) {
     const {data} = await method.updateDeliveryAddress(contentObj)
-    console.log(data)
     commit(type.UPDATE_DELIVERY_ADDRESS,data)
   },
   //请求删除收获地址
   async reqDeleteDeliveryAddress ({commit},id) {
-    console.log(id)
     const {data} = await method.deleteDeliveryAddress(id)
     commit(type.DELETE_DELIVERY_ADDRESS,data)
+  },
+  //请求添加购物车商品
+  async reqAddCartGood ({commit},goodObj) {
+    
+    let {goods_id,goods_name,goods_small_logo,goods_price} = goodObj
+    const {data} = await method.addCartGood(goods_id,goods_name,goods_small_logo,goods_price,1)
+    commit(type.ADD_CART_GOOD,data)
+    Toast.success('加入成功')
+  },
+  //请求修改购物车商品数量
+  async reqReviseCount ({commit},params) {
+    let {good_id,count} = params
+    Toast.loading({
+      message: '加载中...',
+      forbidClick: true,
+      duration:0,
+      forbidClick:true
+    })
+    const {data} = await method.reviseCount(good_id,count)
+    commit(type.REVISE_CART_COUNT,data)
+    Toast.clear()
+  },
+  //请求修改购物车商品选中状态
+  async reqReviseCheck ({commit},params) {
+    let {good_id,checked} = params
+    Toast.loading({
+      message: '加载中...',
+      forbidClick: true,
+      duration:0,
+      forbidClick:true
+    })
+    const {data} = await method.reviseCheck(good_id,checked)
+    commit(type.REVISE_CART_CHECKED,data)
+    Toast.clear()
+  },
+  //请求修改购物车所有商品选中状态
+  async reqReviseAllCheck ({commit},checked) {
+    Toast.loading({
+      message: '加载中...',
+      forbidClick: true,
+      duration:0,
+      forbidClick:true
+    })
+    const {data} = await method.reviseAllCheck(checked)
+    commit(type.REVISE_CART_ALL_CHECKED,data)
+    Toast.clear()
+  },
+  //请求删除购物车中所有选中的商品
+  async reqDeleteAllCheck ({commit}) {
+    const {data} = await method.deleteCheckedGood()
+    commit(type.DELETE_CART_GOOD,data)
   }
 }
 export default actions

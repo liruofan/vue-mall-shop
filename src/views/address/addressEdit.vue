@@ -47,6 +47,7 @@ export default {
       const contentObj = {...content,id}
       if (method === 'add') {
         this.$store.dispatch('reqAddDeliveryAddress',content)
+
       }else if (method === 'update') {
         this.$store.dispatch('reqUpdateDeliveryAddress',contentObj)
       }

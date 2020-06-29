@@ -45,10 +45,13 @@ export default {
   watch: {},
   methods: {
     onAdd () {
+      if (this.filterlist.length >= 5) {
+        this.$toast('最多只能添加5个')
+        return
+      }
       this.$router.push({name:'addressedit',params:{'method':'add'}})
     },
     onEdit(item, index) {
-      console.log(item.id)
       let initinfo = this.userInfo.deliveryAdress.filter(i=>{
         return i.id === item.id
       })
