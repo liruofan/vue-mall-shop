@@ -27,7 +27,8 @@
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" color="#07c160" />
       <van-goods-action-icon icon="cart-o" text="购物车" :to="{name:'cart'}"/>
-      <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" />
+      <!-- <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" /> -->
+      <van-goods-action-icon icon="star" text="收藏" color="#9d9d9d" />
       <van-goods-action-button @click="addGood" type="warning" text="加入购物车" />
       <van-goods-action-button type="danger" text="立即购买" :to="{name:'cart'}"/>
     </van-goods-action>

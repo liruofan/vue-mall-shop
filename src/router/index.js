@@ -15,6 +15,7 @@ import setInfo from 'views/setInfo/setInfo'
 import revisename from 'views/revisename/revisename'
 import addresslist from 'views/address/addressList'
 import addressedit from 'views/address/addressEdit'
+import disconnection from 'views/disconnection/disconnection'
 Vue.use(VueRouter)
 
   const routes = [
@@ -138,6 +139,11 @@ Vue.use(VueRouter)
         path:'/register',
         name:'register',
         component:register
+      },
+      { 
+        path:'/disconnection',
+        name:'disconnection',
+        component:disconnection
       }
     ]
   },{

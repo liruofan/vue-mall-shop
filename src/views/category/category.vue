@@ -1,101 +1,122 @@
 <template>
   <div class="category">
     <Header text="商品分类"></Header>
+    <van-notice-bar
+      v-if="notice"
+      left-icon="volume-o"
+      style="margin-top:.46rem"
+      text="此项目为个人开源项目，仅'曲面电视'中有商品数据，仅供参考！"
+    />
     <div class="container" :class="{hide:!pageonload}">
       <div class="left_menu">
         <ul>
-          <li class="menu_item" 
-          v-for="(menuItem,index) in menu" 
-          :key="index" 
-          :class="{on:menu_index === index}"
-          @click="handleMenu(index)"
-          >
-            {{menuItem}}
-          </li>
+          <li
+            class="menu_item"
+            v-for="(menuItem,index) in menu"
+            :key="index"
+            :class="{on:menu_index === index}"
+            @click="handleMenu(index)"
+          >{{menuItem}}</li>
         </ul>
       </div>
       <div class="goods_container">
         <div>
-        <div class="goods_wrap" 
-        v-for="(cate,index) in category" 
-        :key="index" 
-        v-if="menu_index === index">
-        <div v-for="(goods,index) in cate.children" :key="index">
-          <div class="title"><div class="line"></div><span>{{goods.cat_name}}</span><div class="line"></div></div>
-          <ul class="goods">
-            <li class="needsclick" v-for="(good,index) in goods.children" :key="index" @click="$router.push({name:'goodlist',params:{cid:good.cat_id}})">
-               <img class="pic_item" :src="good.cat_icon">
-               <span>{{good.cat_name}}</span>
-            </li>
-          </ul>
+          <div
+            class="goods_wrap"
+            v-for="(cate,index) in category"
+            :key="index"
+            v-if="menu_index === index"
+          >
+            <div v-for="(goods,index) in cate.children" :key="index">
+              <div class="title">
+                <div class="line"></div>
+                <span>{{goods.cat_name}}</span>
+                <div class="line"></div>
+              </div>
+              <ul class="goods">
+                <li
+                  class="needsclick"
+                  v-for="(good,index) in goods.children"
+                  :key="index"
+                  @click="$router.push({name:'goodlist',params:{cid:good.cat_id}})"
+                >
+                  <img class="pic_item" :src="good.cat_icon" />
+                  <span>{{good.cat_name}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        </div>
-       </div>
       </div>
     </div>
-  <van-loading class="vanLoading" color="#000" v-show="!pageonload" type="spinner" />
-  <transition name="fade">
-  <router-view></router-view>
-  </transition>
+    <van-loading class="vanLoading" color="#000" v-show="!pageonload" type="spinner" />
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
 <script>
 import Header from 'components/header/header'
 import BScroll from '@better-scroll/core'
-import {getGoodsCategory} from 'api'
+import { getGoodsCategory } from 'api'
 export default {
   props: {},
   data() {
     return {
-      category:[],
-      menu:[],
-      goods:[],
-      menu_index:0,
-      pageonload:false
+      category: [],
+      menu: [],
+      goods: [],
+      menu_index: 0,
+      pageonload: false,
+      notice:true,
     }
   },
   computed: {},
   created() {
     this._getGoodsData()
   },
-  mounted() {},
-  watch: {},
+  deactivated () {
+    this.notice = false
+  },
+  activated () {
+    this.notice = true
+  },
   methods: {
-    handleMenu (index) {
+    handleMenu(index) {
       if (this.menu_index === index) {
         return
       }
       this.menu_index = index
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.goodsBscroll.refresh()
-        this.goodsBscroll.scrollTo(0,0)
+        this.goodsBscroll.scrollTo(0, 0)
       })
     },
-    _getMenu () {
-      this.menu = this.category.map((item)=>{
+    _getMenu() {
+      this.menu = this.category.map(item => {
         return item.cat_name
       })
     },
-    _init_Menu_BScroll () {
-      this.menuBscroll = new BScroll('.left_menu',{
-        click:true,
-        bounce:{
-          top:false,
-          bottom:false
+    _init_Menu_BScroll() {
+      this.menuBscroll = new BScroll('.left_menu', {
+        click: true,
+        bounce: {
+          top: false,
+          bottom: false
         }
       })
     },
-    _init_Goods_BScroll () {
-      this.goodsBscroll = new BScroll('.goods_container',{
-        click:true
+    _init_Goods_BScroll() {
+      this.goodsBscroll = new BScroll('.goods_container', {
+        click: true
       })
     },
-    async _getGoodsData () {
-      const {message} = await getGoodsCategory()
+    async _getGoodsData() {
+      const { message } = await getGoodsCategory()
       this.category = message
       this._getMenu()
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this._init_Menu_BScroll()
         this._init_Goods_BScroll()
         this.pageonload = true
@@ -109,32 +130,32 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-@import "~common/css/variable.styl"
-@import "~common/css/mixin.styl"
+@import '~common/css/variable.styl'
+@import '~common/css/mixin.styl'
 .category
   .container
     position absolute
-    top .46rem
+    top 0.86rem
     left 0
     right 0
-    bottom .56rem
+    bottom 0.56rem
     overflow hidden
     display flex
     &.hide
       opacity 0
     .left_menu
-      flex 0 0 .9rem
+      flex 0 0 0.9rem
       background-color $border-gray
       .menu_item
         width 100%
         box-sizing border-box
-        height .44rem
+        height 0.44rem
         display flex
         justify-content center
         align-items center
         color $font-color2
         &.on
-          border-left .03rem solid $theme-red
+          border-left 0.03rem solid $theme-red
           background-color #fff
           font-weight bold
           color #000
@@ -145,17 +166,17 @@ export default {
         height 100%
         overflow hidden
         .title
-          font-size .14rem
+          font-size 0.14rem
           font-weight bold
           display flex
           justify-content center
           align-items center
-          padding .15rem 0 .1rem
+          padding 0.15rem 0 0.1rem
           span
-            margin 0 .1rem
+            margin 0 0.1rem
           .line
-            height .01rem
-            width .9rem
+            height 0.01rem
+            width 0.9rem
             background-color $border-gray
         .goods
           display flex
@@ -167,18 +188,18 @@ export default {
             flex-direction column
             justify-content center
             align-items center
-            height .9rem
+            height 0.9rem
           .pic_item
-            width .55rem
-            margin-bottom .1rem
+            width 0.55rem
+            margin-bottom 0.1rem
   .vanLoading
     position absolute
     top 50%
     left 50%
-    transform translate(-50%,-100%)
-  .fade-enter-active,.fade-leave-active
-    transition all .3s
-  .fade-enter,.fade-leave-to
-    transform translate3d(100%,0,0)
+    transform translate(-50%, -100%)
+  .fade-enter-active, .fade-leave-active
+    transition all 0.3s
+  .fade-enter, .fade-leave-to
+    transform translate3d(100%, 0, 0)
 </style>
 

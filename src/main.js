@@ -28,7 +28,8 @@ import {
   AddressList,
   AddressEdit,
   Checkbox,
-  Stepper
+  Stepper,
+  NoticeBar
 } from 'vant'
 
 Fastclick.attach(document.body)
@@ -56,6 +57,7 @@ Vue.use(AddressList)
 Vue.use(AddressEdit)
 Vue.use(Checkbox)
 Vue.use(Stepper)
+Vue.use(NoticeBar)
 Vue.config.productionTip = false
 new Vue({
   router,

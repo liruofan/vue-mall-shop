@@ -14,15 +14,15 @@
       </div>
       <div class="bottom_container">
         <div class="sort_wrap">
-          <div class="number">100</div>
+          <div class="number">0</div>
           <span>收藏夹</span>
         </div>
         <div class="sort_wrap">
-          <div class="number">18</div>
+          <div class="number">0</div>
           <span>关注店铺</span>
         </div>
         <div class="sort_wrap">
-          <div class="number">1</div>
+          <div class="number">0</div>
           <span>足迹</span>
         </div>
         <div class="sort_wrap">

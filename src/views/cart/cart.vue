@@ -7,7 +7,7 @@
       </div>
       <div v-show="userInfo.cart.length" class="delivery_address">
         <span>共{{cartGoodNum?cartGoodNum:0}}件宝贝</span>
-        收货地址：{{defaultAddress}}
+        <span>收货地址：{{defaultAddress}}</span>
       </div>
       <div class="good_item" v-for="(good,index) in userInfo.cart" :key="index" v-show="userInfo.cart.length">
         <van-checkbox
@@ -172,7 +172,7 @@ export default {
       .manage
         font-size 0.15rem
     .delivery_address
-      width 70%
+      width 75%
       color #fff
       font-size 0.13rem
       margin-bottom 0.21rem
