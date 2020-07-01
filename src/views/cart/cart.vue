@@ -1,5 +1,5 @@
 <template>
-  <div id="cart" v-if="JSON.stringify(userInfo) !== '{}'">
+  <div ref="cart" id="cart" v-if="JSON.stringify(userInfo) !== '{}'">
     <div class="header_bg">
       <div class="cart_title">
         <span class="cart">购物车</span>
@@ -7,7 +7,7 @@
       </div>
       <div v-show="userInfo.cart.length" class="delivery_address">
         <span>共{{cartGoodNum?cartGoodNum:0}}件宝贝</span>
-        <span>收货地址：{{defaultAddress}}</span>
+        <span class="ellip">收货地址：{{defaultAddress}}</span>
       </div>
       <div class="good_item" v-for="(good,index) in userInfo.cart" :key="index" v-show="userInfo.cart.length">
         <van-checkbox
@@ -177,6 +177,8 @@ export default {
       font-size 0.13rem
       margin-bottom 0.21rem
       ellipsis()
+      .ellip
+        margin-right 0
       span
         margin-right 0.14rem
     .good_item
@@ -239,14 +241,18 @@ export default {
     .right_wrap
       display flex
       align-items center
+      justify-content flex-end
+      width 70%
       .total_wrap
         color $theme-red
         font-size 0.13rem
+        ellipsis()
         .total
           font-size 0.15rem
           color $font-color
       .btn
         width 1rem
+        flex 0 0 1rem
         height 0.4rem
         color #fff
         font-size 0.15rem

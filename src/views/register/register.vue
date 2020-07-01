@@ -31,7 +31,7 @@
       <div class="login">
         <span @click="$router.replace('/login')">前往登陆</span>
       </div>
-      <van-button hairline :disabled="loading" :loading="loading" class="login_btn">注 册</van-button>
+      <van-button :disabled="loading" :loading="loading" class="login_btn">注 册</van-button>
     </van-form>
   </div>
 </template>
@@ -95,6 +95,11 @@ export default {
 <style scoped lang="stylus">
 @import '~common/css/variable.styl'
 #register
+  position absolute
+  left 0
+  top 0
+  bottom 0
+  right 0
   .icon-arrow-lift
     color $font-color2
     font-size $header-arrow-font-size

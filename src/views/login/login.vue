@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <Header backGroundColor="#fff">
+    <Header backGroundColor="#fff" style="position:static">
       <i slot="head_left" class="iconfont icon-arrow-lift" @click="$router.replace('/home')"></i>
     </Header>
     <div class="logo_container">
@@ -33,7 +33,7 @@
       <div class="register">
         <span @click="$router.replace('/register')">免费注册</span>
       </div>
-      <van-button hairline :disabled="loading" :loading="loading" class="login_btn">登 陆</van-button>
+      <van-button :disabled="loading" :loading="loading" class="login_btn">登 陆</van-button>
     </form>
   </div>
 </template>
@@ -101,7 +101,7 @@ export default {
     color $font-color2
     font-size $header-arrow-font-size
   .logo_container
-    margin 0.5rem 0 0.36rem
+    margin 0.04rem 0 0.36rem
     height 0.8rem
     text-align center
     img

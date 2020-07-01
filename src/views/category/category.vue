@@ -4,7 +4,6 @@
     <van-notice-bar
       v-if="notice"
       left-icon="volume-o"
-      style="margin-top:.46rem"
       text="此项目为个人开源项目，仅'曲面电视'中有商品数据，仅供参考！"
     />
     <div class="container" :class="{hide:!pageonload}">
@@ -80,7 +79,10 @@ export default {
     this.notice = false
   },
   activated () {
+    console.log('activated')
     this.notice = true
+    this.menuBscroll && this.menuBscroll.refresh()
+    this.goodsBscroll && this.goodsBscroll.refresh()
   },
   methods: {
     handleMenu(index) {
@@ -133,6 +135,11 @@ export default {
 @import '~common/css/variable.styl'
 @import '~common/css/mixin.styl'
 .category
+  .van-notice-bar
+    position absolute
+    top 0.46rem
+    left 0
+    right 0
   .container
     position absolute
     top 0.86rem
