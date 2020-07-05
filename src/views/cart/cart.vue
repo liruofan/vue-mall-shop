@@ -9,7 +9,7 @@
         <span>共{{cartGoodNum?cartGoodNum:0}}件宝贝</span>
         <span class="ellip">收货地址：{{defaultAddress}}</span>
       </div>
-      <div class="good_item" v-for="(good,index) in userInfo.cart" :key="index" v-show="userInfo.cart.length">
+      <div class="good_item" v-for="(good,index) in userInfo.cart" :key="index" v-show="userInfo.cart.length" @click="goDetail(good.good_id,index,$event)" >
         <van-checkbox
           checked-color="#eb4450"
           v-model="good.checked"
@@ -102,7 +102,6 @@ export default {
       },
       set(val) {
         this.$store.dispatch('reqReviseAllCheck', val)
-        setTimeout(() => {}, 1000)
       }
     }
   },
@@ -146,6 +145,25 @@ export default {
         message:'确定要删除选中的商品吗'
       },()=>{
         this.$store.dispatch('reqDeleteAllCheck')
+      })
+    },
+    goDetail (good_id,index,event) {
+      let vanIconSuccessDom = document.getElementsByClassName('van-icon-success')[index]
+      let vanCheckbox = document.getElementsByClassName('van-checkbox')[index]
+      let vanStepperMinus = document.getElementsByClassName('van-stepper__minus')[index]
+      let vanStepperInput = document.getElementsByClassName('van-stepper__input')[index]
+      let vanStepperPlus = document.getElementsByClassName('van-stepper__plus')[index]
+      if (event.target === vanIconSuccessDom ||
+          event.target === vanCheckbox ||
+          event.target === vanStepperMinus ||
+          event.target === vanStepperInput ||
+          event.target === vanStepperPlus
+      ) {
+        return
+      }
+      this.$router.push({
+        name:'gooddetail',
+        params: { goods_id:good_id }
       })
     }
   },
@@ -204,7 +222,7 @@ export default {
         flex-direction column
         justify-content space-around
         .good_name
-          font-size 0.14rem
+          font-size 0.12rem
           display -webkit-box
           -webkit-line-clamp 2
           -webkit-box-orient vertical

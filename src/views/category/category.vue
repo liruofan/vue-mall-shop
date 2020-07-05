@@ -79,7 +79,6 @@ export default {
     this.notice = false
   },
   activated () {
-    console.log('activated')
     this.notice = true
     this.menuBscroll && this.menuBscroll.refresh()
     this.goodsBscroll && this.goodsBscroll.refresh()

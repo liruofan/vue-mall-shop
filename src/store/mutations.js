@@ -35,6 +35,21 @@ const mutations = {
   },
   [type.DELETE_CART_GOOD] (state,data) {
     state.userInfo.cart = data
+  },
+  [type.ADD_FAVORITE] (state,data) {
+    state.userInfo.favorite = data
+  },
+  [type.CANCEL_FAVORITE] (state,data) {
+    state.userInfo.favorite = data
+  },
+  [type.REVISE_FAVORITE_CHECKED] (state,data) {
+    state.userInfo.favorite = data
+  },
+  [type.REVISE_FAVORITE_ALL_CHECKED] (state,data) {
+    state.userInfo.favorite = data
+  },
+  [type.DELETE_FAVORITE_GOOD] (state,data) {
+    state.userInfo.favorite = data
   }
 }
 export default mutations

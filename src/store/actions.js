@@ -39,20 +39,24 @@ const actions = {
   },
   //请求添加购物车商品
   async reqAddCartGood ({commit},goodObj) {
-    
     let {goods_id,goods_name,goods_small_logo,goods_price} = goodObj
+    Toast.loading({
+      message: '加载中',
+      forbidClick: true,
+      duration:0
+    })
     const {data} = await method.addCartGood(goods_id,goods_name,goods_small_logo,goods_price,1)
     commit(type.ADD_CART_GOOD,data)
+    Toast.clear()
     Toast.success('加入成功')
   },
   //请求修改购物车商品数量
   async reqReviseCount ({commit},params) {
     let {good_id,count} = params
     Toast.loading({
-      message: '加载中...',
+      message: '加载中',
       forbidClick: true,
-      duration:0,
-      forbidClick:true
+      duration:0
     })
     const {data} = await method.reviseCount(good_id,count)
     commit(type.REVISE_CART_COUNT,data)
@@ -62,10 +66,9 @@ const actions = {
   async reqReviseCheck ({commit},params) {
     let {good_id,checked} = params
     Toast.loading({
-      message: '加载中...',
+      message: '加载中',
       forbidClick: true,
-      duration:0,
-      forbidClick:true
+      duration:0
     })
     const {data} = await method.reviseCheck(good_id,checked)
     commit(type.REVISE_CART_CHECKED,data)
@@ -74,10 +77,9 @@ const actions = {
   //请求修改购物车所有商品选中状态
   async reqReviseAllCheck ({commit},checked) {
     Toast.loading({
-      message: '加载中...',
+      message: '加载中',
       forbidClick: true,
-      duration:0,
-      forbidClick:true
+      duration:0
     })
     const {data} = await method.reviseAllCheck(checked)
     commit(type.REVISE_CART_ALL_CHECKED,data)
@@ -85,8 +87,70 @@ const actions = {
   },
   //请求删除购物车中所有选中的商品
   async reqDeleteAllCheck ({commit}) {
+    Toast.loading({
+      message: '加载中',
+      forbidClick: true,
+      duration:0
+    })
     const {data} = await method.deleteCheckedGood()
     commit(type.DELETE_CART_GOOD,data)
+    Toast.clear()
+  },
+  //请求添加商品到用户收藏夹
+  async reqAddFavorite ({commit},goods_id) {
+    Toast.loading({
+      message: '加载中',
+      forbidClick: true,
+      duration:0
+    })
+    const {data} = await method.addFavorite(goods_id)
+    commit(type.ADD_FAVORITE,data)
+    Toast.clear()
+    Toast.success('收藏成功')
+  },
+  //请求取消商品到用户收藏夹
+  async reqCancelFavorite ({commit},goods_id) {
+    Toast.loading({
+      message: '加载中',
+      forbidClick: true,
+      duration:0
+    })
+    const {data} = await method.cancelFavorite(goods_id)
+    commit(type.CANCEL_FAVORITE,data)
+    Toast.clear()
+  },
+  //请求修改收藏夹商品选中状态
+  async reqReviseFavoriteCheck ({commit},params) {
+    let {goods_id,checked} = params
+    Toast.loading({
+      message: '加载中',
+      forbidClick: true,
+      duration:0
+    })
+    const {data} = await method.reviseFavoriteCheck(goods_id,checked)
+    commit(type.REVISE_FAVORITE_CHECKED,data)
+    Toast.clear()
+  },
+  //请求修改收藏夹所有商品选中状态
+  async reqFavoriteReviseAllCheck ({commit},checked) {
+    Toast.loading({
+      message: '加载中',
+      forbidClick: true,
+      duration:0
+    })
+    const {data} = await method.reviseFavoriteAllCheck(checked)
+    commit(type.REVISE_FAVORITE_ALL_CHECKED,data)
+    Toast.clear()
+  },
+  async reqDeleteFavoriteAllCheck ({commit}) {
+    Toast.loading({
+      message: '加载中',
+      forbidClick: true,
+      duration:0
+    })
+    const {data} = await method.deleteFavoriteCheckedGood()
+    commit(type.DELETE_FAVORITE_GOOD,data)
+    Toast.clear()
   }
 }
 export default actions

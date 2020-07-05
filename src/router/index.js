@@ -16,93 +16,94 @@ import revisename from 'views/revisename/revisename'
 import addresslist from 'views/address/addressList'
 import addressedit from 'views/address/addressEdit'
 import disconnection from 'views/disconnection/disconnection'
+import favorite from 'views/favorite/favorite'
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
-    path:'/index',
-    component:Index,
+    path: '/index',
+    component: Index,
     children: [
       {
-        path:'/category',
-        name:'category',
-        component:category,
-        meta:{
-          navfooter:true
+        path: '/category',
+        name: 'category',
+        component: category,
+        meta: {
+          navfooter: true
         },
-        children:[
+        children: [
           {
-            path:'/category/goodlist',
-            name:'goodlist',
-            component:goodlist,
-            meta:{
-              navfooter:true
+            path: '/category/goodlist',
+            name: 'goodlist',
+            component: goodlist,
+            meta: {
+              navfooter: true
             },
-            children:[
-              { 
-                path:'/category/goodlist/gooddetail',
-                name:'gooddetail',
-                component:goodDetail,
-                meta:{
-                  navfooter:true
+            children: [
+              {
+                path: '/category/goodlist/gooddetail',
+                name: 'gooddetail',
+                component: goodDetail,
+                meta: {
+                  navfooter: true
                 }
               }
             ]
           }
         ]
-      },{
-        path:'/cart',
-        name:'cart',
-        component:cart,
-        meta:{
-          navfooter:true
+      }, {
+        path: '/cart',
+        name: 'cart',
+        component: cart,
+        meta: {
+          navfooter: true
         }
-      },{
-        path:'/profile',
-        name:'profile',
-        component:profile,
-        meta:{
-          navfooter:true
+      }, {
+        path: '/profile',
+        name: 'profile',
+        component: profile,
+        meta: {
+          navfooter: true
         },
-        children:[
+        children: [
           {
-            path:'/profile/set',
-            name:'set',
-            component:set,
-            meta:{
-              navfooter:true
+            path: '/profile/set',
+            name: 'set',
+            component: set,
+            meta: {
+              navfooter: true
             },
-            children:[
+            children: [
               {
-                path:'/profile/set/setInfo',
-                name:'setInfo',
-                component:setInfo,
-                meta:{
-                  navfooter:true
+                path: '/profile/set/setInfo',
+                name: 'setInfo',
+                component: setInfo,
+                meta: {
+                  navfooter: true
                 },
-                children:[
+                children: [
                   {
-                    path:'/profile/set/setInfo/revisename',
-                    name:'revisename',
-                    component:revisename,
-                    meta:{
-                      navfooter:true
+                    path: '/profile/set/setInfo/revisename',
+                    name: 'revisename',
+                    component: revisename,
+                    meta: {
+                      navfooter: true
                     }
                   },
                   {
-                    path:'/profile/set/setInfo/addresslist',
-                    name:'addresslist',
-                    component:addresslist,
-                    meta:{
-                      navfooter:true
+                    path: '/profile/set/setInfo/addresslist',
+                    name: 'addresslist',
+                    component: addresslist,
+                    meta: {
+                      navfooter: true
                     },
-                    children:[
+                    children: [
                       {
-                        path:'/profile/set/setInfo/addressedit',
-                        name:'addressedit',
-                        component:addressedit,
-                        meta:{
-                          navfooter:true
+                        path: '/profile/set/setInfo/addressedit',
+                        name: 'addressedit',
+                        component: addressedit,
+                        meta: {
+                          navfooter: true
                         },
                       }
                     ]
@@ -110,57 +111,66 @@ Vue.use(VueRouter)
                 ]
               }
             ]
+          },
+          {
+            path: '/profile/favorite',
+            name: 'favorite',
+            component: favorite,
+            meta: {
+              navfooter: true
+            },
           }
         ]
-      },{
+      }, {
         path: '/home',
-        name:'home',
+        name: 'home',
         component: home,
-        meta:{
-          navfooter:true
+        meta: {
+          navfooter: true
         },
-        children:[
+        children: [
           {
-            path:'/home/search',
-            name:"search",
-            component:searchDetail,
-            meta:{
-              navfooter:true
+            path: '/home/search',
+            name: "search",
+            component: searchDetail,
+            meta: {
+              navfooter: true
             }
           }
         ]
       },
       {
-        path:'/login',
-        name:'login',
-        component:login
+        path: '/login',
+        name: 'login',
+        component: login
       },
       {
-        path:'/register',
-        name:'register',
-        component:register
+        path: '/register',
+        name: 'register',
+        component: register
       },
-      { 
-        path:'/disconnection',
-        name:'disconnection',
-        component:disconnection
+      {
+        path: '/disconnection',
+        name: 'disconnection',
+        component: disconnection
       }
     ]
-  },{
-    path:'/',
-    redirect:'/home'
+  }, {
+    path: '/',
+    redirect: '/home'
   }
 ]
 
 const router = new VueRouter({
   routes
 })
-router.beforeEach((to,from,next)=>{
-  if (to.name === 'cart' || to.name === 'profile') {
+router.beforeEach((to, from, next) => {
+  if (to.path === '/cart' || to.path === '/profile') {
     if (!localStorage.getItem('token')) {
-     return next('/login')
+      next('/login')
+    } else {
+      next()
     }
-     next()
   }
   next()
 })

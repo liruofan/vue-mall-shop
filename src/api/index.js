@@ -18,7 +18,7 @@ export const userRegister = (username,password) => axios.post('/user/register',{
 //账号登陆
 export const userLogin = (username,password) => axios.post('/user/login',{username,password})
 //获取个人信息
-export const getUserInfo = () => axios.post('/user/profile')
+export const getUserInfo = () => axios.post('/user/profile') 
 //修改性别
 export const reviseSex = (sex) => axios.post('/user/revisesex',{sex})
 //修改昵称
@@ -39,3 +39,19 @@ export const reviseCheck = (good_id,checked) => axios.post('/user/reviseChecked'
 export const reviseAllCheck = (checked) => axios.post('/user/reviseAllChecked',{checked})
 //删除所有选中的商品
 export const deleteCheckedGood = () => axios.post('/user/deleteCartGood')
+//增加商品收藏总量
+export const addFavoriteNum = (goods_id) => axios.post('/goods/addFavoriteNum',{goods_id})
+//减少商品收藏总量
+export const reduceFavoriteNum = (goods_id) => axios.post('/goods/reduceFavoriteNum',{goods_id})
+//添加商品到用户收藏夹
+export const addFavorite = (goods_id) => axios.post('/user/addFavorite',{goods_id})
+//取消商品到用户收藏夹
+export const cancelFavorite = (goods_id) => axios.post('/user/cancelFavorite',{goods_id})
+//检测商品是否收藏
+export const isFavorite = (goods_id) => axios.post('/user/isFavorite',{goods_id})
+//修改收藏夹商品选中状态
+export const reviseFavoriteCheck = (goods_id,checked) => axios.post('/user/reviseFavoriteChecked',{goods_id,checked})
+//修改全部商品的选中状态
+export const reviseFavoriteAllCheck = (checked) => axios.post('/user/reviseFavoriteAllChecked',{checked})
+//删除所有选中的商品
+export const deleteFavoriteCheckedGood = () => axios.post('/user/deleteFavoriteCartGood')

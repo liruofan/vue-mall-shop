@@ -4,7 +4,7 @@
       <slot name="head_left"></slot>
     </div>
     <div class="header_center">
-      <span>{{text}}</span>
+      <span :style="`color:${color}`">{{text}}</span>
     </div>
     <div class="head_right">
       <slot name="head_right"></slot>
@@ -19,6 +19,10 @@ export default {
     backGroundColor: {
       type: String,
       default: '#eb4450'
+    },
+    color:{
+      type: String,
+      default: '#fff'
     }
   },
   data() {

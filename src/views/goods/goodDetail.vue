@@ -26,11 +26,11 @@
     </transition>
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" color="#07c160" />
-      <van-goods-action-icon icon="cart-o" text="购物车" :to="{name:'cart'}"/>
-      <!-- <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" /> -->
-      <van-goods-action-icon icon="star" text="收藏" color="#9d9d9d" />
+      <van-goods-action-icon icon="cart-o" text="购物车" to="/cart" />
+      <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" v-if="isfavorite" @click="cancelcollection"/>
+      <van-goods-action-icon icon="star" text="收藏" color="#9d9d9d" v-else @click="addcollection" />
       <van-goods-action-button @click="addGood" type="warning" text="加入购物车" />
-      <van-goods-action-button type="danger" text="立即购买" :to="{name:'cart'}"/>
+      <van-goods-action-button type="danger" text="立即购买" to="/cart" />
     </van-goods-action>
   </div>
 </template>
@@ -39,7 +39,7 @@
 import Header from 'components/header/header'
 import goodSwiper from 'components/swiper/goodSwiper'
 import BScroll from '@better-scroll/core'
-import { getGoodDetail,addCartGood } from 'api'
+import {addFavoriteNum,reduceFavoriteNum,isFavorite,getGoodDetail,addCartGood} from 'api'
 export default {
   props: {},
   data() {
@@ -56,19 +56,24 @@ export default {
         require('../../common/images/goodDetail8.jpg'),
         require('../../common/images/goodDetail9.png')
       ],
-      backIcon_show: true
+      backIcon_show: true,
+      isfavorite:false,
     }
   },
   computed: {},
   created() {
     this.getGoodDetialData()
+    
   },
   mounted() {},
   watch: {
     $route(to, from) {
-      if (from.name === 'search') {
-        this.getGoodDetialData()
+      if (from.name === 'search' || from.name === 'cart') {
+        this.$route.params.goods_id && this.getGoodDetialData()
       }
+    },
+    goodInfo (val) {
+      this.is_favorite()
     }
   },
   methods: {
@@ -85,6 +90,11 @@ export default {
       let query = {goods_id,goods_name,goods_small_logo,goods_price}
       this.$store.dispatch('reqAddCartGood',query)
       
+    },
+    async is_favorite () {
+      let {goods_id} = this.goodInfo
+      const {data} = await isFavorite(goods_id)
+      this.isfavorite = data
     },
     // _initBScroll () {
     //   // this.detailScroll = new BScroll(this.$refs.goodsDetail,{
@@ -111,6 +121,29 @@ export default {
       } else {
         this.backIcon_show = true
       }
+    },
+    async addcollection () {
+      let {goods_id} = this.goodInfo
+      this.$toast.loading({
+        message:'加载中',
+        forbidClick: true,
+        duration:0
+      })
+      this.isfavorite = true
+      await addFavoriteNum(goods_id)
+      this.$store.dispatch('reqAddFavorite',goods_id)
+    },
+    async cancelcollection () {
+      let {goods_id} = this.goodInfo
+      this.$toast.loading({
+        message:'加载中',
+        forbidClick: true,
+        duration:0
+      })
+      this.isfavorite = false
+      await reduceFavoriteNum(goods_id)
+      this.$store.dispatch('reqCancelFavorite',goods_id)
+      
     }
   },
   components: {

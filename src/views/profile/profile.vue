@@ -13,7 +13,7 @@
         </span>
       </div>
       <div class="bottom_container">
-        <div class="sort_wrap">
+        <div class="sort_wrap" @click="$router.push('/profile/favorite')">
           <div class="number">0</div>
           <span>收藏夹</span>
         </div>
