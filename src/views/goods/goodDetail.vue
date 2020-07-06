@@ -81,9 +81,6 @@ export default {
       let goods_id = this.$route.params.goods_id
       const { message } = await getGoodDetail(goods_id)
       this.goodInfo = message[0]
-      // this.$nextTick(()=>{
-      //   this._initBScroll()
-      // })
     },
     async addGood () {
       let {goods_id,goods_name,goods_small_logo,goods_price} = this.goodInfo
@@ -96,24 +93,6 @@ export default {
       const {data} = await isFavorite(goods_id)
       this.isfavorite = data
     },
-    // _initBScroll () {
-    //   // this.detailScroll = new BScroll(this.$refs.goodsDetail,{
-    //   //   click:true,
-    //   //   probeType:3,
-    //   //   bounce:{
-    //   //     top:false,
-    //   //     bottom:false
-    //   //   }
-    //   // })
-    //   // this.detailScroll.on('scroll',({x,y}) => {
-    //   //      y = Math.abs(y)
-    //   //     if (y > 100) {
-    //   //       this.backIcon_show = false
-    //   //     }else{
-    //   //       this.backIcon_show = true
-    //   //     }
-    //   // })
-    // },
     scroll() {
       let scrolltop = this.$refs.goodsDetail.scrollTop
       if (scrolltop > 100) {

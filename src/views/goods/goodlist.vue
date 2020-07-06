@@ -6,10 +6,10 @@
     <div class="dropdown_menu">
       <div class="all_good">全部商品</div>
       <div class="price_paixu" @click="sort">
-        <span class="price_sort" :class="{on:sortState===1 || sortState===2}">价格排序</span>
+        <span class="price_sort" :class="{on:current_page.sort===1 || current_page.sort===-1}">价格排序</span>
         <span class="icon_wrap">
-          <i class="iconfont icon-shaixuan-shangjiantou" :class="{on:sortState===1}"></i>
-          <i class="iconfont icon-shaixuan-xiajiantou" :class="{on:sortState===2}"></i>
+          <i class="iconfont icon-shaixuan-shangjiantou" :class="{on:current_page.sort===1}"></i>
+          <i class="iconfont icon-shaixuan-xiajiantou" :class="{on:current_page.sort===-1}"></i>
         </span>
       </div>
     </div>
@@ -83,15 +83,16 @@ export default {
       current_page: {
         cid: 5,
         pagenum: 1,
-        pagesize: 10
+        pagesize: 10,
+        sort: 0 //0 默认 1 价格从低到高 -1 价格从高到低
       },
       total: null,
       goods: [],
-      sortState: 0, //0 默认 1 价格从低到高 2 价格从高到低
       beforePullDown: true,
       isPullingDown: false,
       isPullUpLoad: false,
-      initIcon: false
+      initIcon: false,
+      isClick:true
     }
   },
   computed: {
@@ -112,9 +113,10 @@ export default {
   mounted() {},
   watch: {},
   methods: {
+    //获取数据
     async _getListData() {
-      let { cid, pagenum, pagesize } = this.current_page
-      const { message } = await searchGoodList(cid, pagenum, pagesize)
+      let { cid, pagenum, pagesize, sort } = this.current_page
+      const { message } = await searchGoodList(cid, pagenum, pagesize, sort)
       this.current_page.pagenum += 1
       this.goods = message.goods
       if (!this.goods.length) {
@@ -125,6 +127,7 @@ export default {
         this._initBscroll()
       })
     },
+    //初始化better-scroll
     _initBscroll() {
       if (this.bscroll) {
         return
@@ -140,30 +143,27 @@ export default {
       })
       //下拉刷新
       this.bscroll.on('pullingDown', async () => {
-        let { cid, pagenum, pagesize } = this.current_page
+        this.isClick = false
+        this.current_page.pagenum = 1
         this.beforePullDown = false
         this.isPullingDown = true
-        try {
-          this.bscroll.disable()
-          const { message } = await searchGoodList(cid, 1, pagesize)
-          this.isPullUpLoad = false
-          this.bscroll.openPullUp()
-          this.current_page.pagenum = 2
-          setTimeout(() => {
-            this.isPullingDown = false
-            this.goods = message.goods
-            this.sort2()
-            this.finishPullDown()
-          }, 1000)
-        } catch (err) {
-          this.$toast.fail('网络超时')
-          this.finishPullDown2()
-        }
+        this.bscroll.disable()
+        let { cid, pagenum, pagesize, sort } = this.current_page
+        const { message } = await searchGoodList(cid, pagenum, pagesize, sort)
+        this.isPullUpLoad = false
+        this.bscroll.openPullUp()
+        this.current_page.pagenum++
+        setTimeout(() => {
+          this.isPullingDown = false
+          this.goods = message.goods
+          this.finishPullDown()
+        }, 1000)
       })
       //上拉加载
       this.bscroll.on('pullingUp', async () => {
-        let { cid, pagenum, pagesize } = this.current_page
+        let { cid, pagenum, pagesize, sort } = this.current_page
         let { total } = this
+        this.isClick = false
         this.bscroll.disable()
         this.isPullUpLoad = true
         if ((pagenum - 1) * pagesize > total) {
@@ -173,26 +173,19 @@ export default {
           this.bscroll.enable()
           return
         }
-        try {
-          const { message } = await searchGoodList(cid, pagenum, pagesize)
-          this.current_page.pagenum++
-          this.goods = this.goods.concat(message.goods)
-          this.isPullUpLoad = false
-          this.sort2()
-          this.$nextTick(() => {
-            this.bscroll.refresh()
-            this.bscroll.finishPullUp()
-            this.bscroll.enable()
-          })
-        } catch (err) {
-          this.$toast.fail('网络超时')
-          this.isPullUpLoad = false
+        const { message } = await searchGoodList(cid, pagenum, pagesize, sort)
+        this.current_page.pagenum++
+        this.goods = this.goods.concat(message.goods)
+        this.isPullUpLoad = false
+        this.$nextTick(() => {
+          this.bscroll.refresh()
           this.bscroll.finishPullUp()
           this.bscroll.enable()
-        }
+          this.isClick = true
+        })
       })
     },
-    //成功的下拉刷新收尾工作
+    //下拉刷新收尾工作
     async finishPullDown() {
       await new Promise(resolve => {
         setTimeout(() => {
@@ -204,60 +197,52 @@ export default {
         this.beforePullDown = true
         this.bscroll.refresh()
         this.bscroll.enable()
+        this.isClick = true
       }, 800)
     },
-    //失败的下拉刷新收尾工作
-    async finishPullDown2() {
-      await new Promise(resolve => {
-        this.bscroll.finishPullDown()
-        resolve()
+    //商品排序
+    async sort() {
+      if (!this.isClick) {
+        return 
+      }
+      this.$toast.loading({
+        message: '加载中',
+        forbidClick: true,
+        duration: 0
       })
-      await setTimeout(() => {
-        this.beforePullDown = true
-        this.bscroll.enable()
-      }, 800)
-    },
-    //普通排序
-    sort() {
-      if (this.beforePullDown & !this.isPullUpLoad) {
-        let { sortState, goods } = this
-        if (sortState === 0) {
-          this.goods = goods.sort((a, b) => {
-            return a.goods_price - b.goods_price
-          })
-          this.sortState = 1
-        } else if (sortState === 1) {
-          this.goods = goods.sort((a, b) => {
-            return b.goods_price - a.goods_price
-          })
-          this.sortState = 2
-        } else {
-          this.goods = goods.sort((a, b) => {
-            return a.goods_name.charCodeAt() - b.goods_name.charCodeAt()
-          })
-          this.sortState = 0
-        }
-      }
-    },
-    //上拉加载/下拉刷新的排序
-    sort2() {
-      // if (this.beforePullDown & !this.isPullUpLoad) {
-      let { sortState, goods } = this
-      if (sortState === 0) {
-        this.goods = goods.sort((a, b) => {
-          return a.goods_name.charCodeAt() - b.goods_name.charCodeAt()
-        })
-      } else if (sortState === 1) {
-        this.goods = goods.sort((a, b) => {
-          return a.goods_price - b.goods_price
-        })
+      this.bscroll.disable()
+      let { sort } = this.current_page
+      if (sort === 0) {
+        this.current_page.sort = 1
+        this.current_page.pagenum = 1
+        let { sort, cid, pagenum, pagesize } = this.current_page
+        const { message } = await searchGoodList(cid, pagenum, pagesize, sort)
+        this.current_page.pagenum++
+        this.goods = message.goods
+      } else if (sort === 1) {
+        this.current_page.sort = -1
+        this.current_page.pagenum = 1
+        let { sort, cid, pagenum, pagesize } = this.current_page
+        const { message } = await searchGoodList(cid, pagenum, pagesize, sort)
+        this.current_page.pagenum++
+        this.goods = message.goods
       } else {
-        this.goods = goods.sort((a, b) => {
-          return b.goods_price - a.goods_price
-        })
+        this.current_page.sort = 0
+        this.current_page.pagenum = 1
+        let { sort, cid, pagenum, pagesize } = this.current_page
+        const { message } = await searchGoodList(cid, pagenum, pagesize, sort)
+        this.current_page.pagenum++
+        this.goods = message.goods
       }
-      // }
+      this.$nextTick(() => {
+        this.bscroll.scrollTo(0, 0)
+        this.bscroll.refresh()
+        this.bscroll.openPullUp()
+      })
+      this.$toast.clear()
+      this.bscroll.enable()
     },
+    //跳转商品详情
     goToGoodsDetail(goods_id) {
       this.$router.push({
         name: 'gooddetail',

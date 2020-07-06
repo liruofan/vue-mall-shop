@@ -4,7 +4,7 @@
     <van-notice-bar
       v-if="notice"
       left-icon="volume-o"
-      text="此项目为个人开源项目，仅'曲面电视'中有商品数据，仅供参考！"
+      text="此项目为个人面试作品，仅'曲面电视'中有商品数据，仅供参考！"
     />
     <div class="container" :class="{hide:!pageonload}">
       <div class="left_menu">

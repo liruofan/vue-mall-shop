@@ -172,6 +172,10 @@ router.beforeEach((to, from, next) => {
       next()
     }
   }
-  next()
+  if (!to.matched.length) {
+        from.name ? next({ name:from.name }) : next('/home')
+      } else {
+        next()
+      }
 })
 export default router

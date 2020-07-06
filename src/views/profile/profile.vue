@@ -1,5 +1,5 @@
 <template>
-  <div id="profile">
+  <div id="profile" v-if="JSON.stringify(userInfo) !== '{}'">
     <div class="user_header">
       <div class="top_container">
         <div class="wrapper">
@@ -14,7 +14,7 @@
       </div>
       <div class="bottom_container">
         <div class="sort_wrap" @click="$router.push('/profile/favorite')">
-          <div class="number">0</div>
+          <div class="number">{{userInfo.favorite.length}}</div>
           <span>收藏夹</span>
         </div>
         <div class="sort_wrap">

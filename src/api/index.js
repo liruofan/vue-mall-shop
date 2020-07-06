@@ -10,7 +10,7 @@ export const search = (query) => axios.get('/goods/search',{params:{query}})
 //获取商品分类
 export const getGoodsCategory = () => axios.get('/goods/goods')
 //商品列表搜索
-export const searchGoodList = (cid,pagenum,pagesize) => axios.get('/goods/detailGoods',{params:{cid,pagenum,pagesize}})
+export const searchGoodList = (cid,pagenum,pagesize,sort) => axios.get('/goods/detailGoods',{params:{cid,pagenum,pagesize,sort}})
 //获取商品详情
 export const getGoodDetail = (goods_id) => axios.get('/goods/detailInfo',{params:{goods_id}})
 //账号注册
