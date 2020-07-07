@@ -6,7 +6,7 @@
           <div class="port_wrap" @click="$router.push('/profile/set/setInfo')">
             <img :src="userInfo.sex === '男'? require('../../common/images/man.png') : require('../../common/images/woman.png')" />
           </div>
-          <span class="name" @click="$router.push('/profile/set/setInfo')">{{userInfo.netname}}</span>
+          <div class="name" @click="$router.push('/profile/set/setInfo')">{{userInfo.netname}}</div>
         </div>
         <span class="set" @click="$router.push('/profile/set')">
           <i class="iconfont icon-icon08"></i>
@@ -107,6 +107,8 @@ export default {
           img
             width 100%
         .name
+          height 100%
+          line-height .6rem
           margin-left 0.05rem
           font-size 0.2rem
           font-weight bold
