@@ -202,7 +202,7 @@ export default {
     },
     //商品排序
     async sort() {
-      if (!this.isClick) {
+      if (!this.isClick || !this.goods.length) {
         return 
       }
       this.$toast.loading({
