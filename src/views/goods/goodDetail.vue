@@ -108,8 +108,8 @@ export default {
         forbidClick: true,
         duration:0
       })
-      this.isfavorite = true
       await addFavoriteNum(goods_id)
+      this.isfavorite = true
       this.$store.dispatch('reqAddFavorite',goods_id)
     },
     async cancelcollection () {
@@ -119,8 +119,8 @@ export default {
         forbidClick: true,
         duration:0
       })
-      this.isfavorite = false
       await reduceFavoriteNum(goods_id)
+      this.isfavorite = false
       this.$store.dispatch('reqCancelFavorite',goods_id)
       
     }
