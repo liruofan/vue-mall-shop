@@ -3,13 +3,23 @@
     <div class="header_bg">
       <div class="cart_title">
         <span class="cart">购物车</span>
-        <span class="manage" @click="manage" v-show="userInfo.cart.length">{{manageMode? '完成' : '管理'}}</span>
+        <span
+          class="manage"
+          @click="manage"
+          v-show="userInfo.cart.length"
+        >{{manageMode? '完成' : '管理'}}</span>
       </div>
-      <div v-show="userInfo.cart.length" class="delivery_address">
-        <span>共{{cartGoodNum?cartGoodNum:0}}件宝贝</span>
-        <span class="ellip">收货地址：{{defaultAddress}}</span>
-      </div>
-      <div class="good_item" v-for="(good,index) in userInfo.cart" :key="index" v-show="userInfo.cart.length" @click="goDetail(good.good_id,index,$event)" >
+      <div
+        v-show="userInfo.cart.length"
+        class="delivery_address"
+      >共{{cartGoodNum?cartGoodNum:0}}件宝贝 收货地址：{{defaultAddress}}</div>
+      <div
+        class="good_item"
+        v-for="(good,index) in userInfo.cart"
+        :key="index"
+        v-show="userInfo.cart.length"
+        @click="goDetail(good.good_id,index,$event)"
+      >
         <van-checkbox
           checked-color="#eb4450"
           v-model="good.checked"
@@ -21,12 +31,13 @@
           <div class="good_price">
             <span>￥{{good.good_price}}</span>
             <van-stepper
+              :integer="true"
               @change="((value,detail)=>reviseCount(value,detail,good.good_id))"
               v-model="good.count"
               :max="999"
               :min="1"
               @overlimit="disreduce(good.count)"
-              @focus="focus"
+              @focus="focus(index)"
               @blur="blur"
             />
           </div>
@@ -42,8 +53,10 @@
     <div class="cart_control" v-show="userInfo.cart.length">
       <van-checkbox class="all_select" checked-color="#eb4450" v-model="isAllChecked">全选</van-checkbox>
       <div class="right_wrap">
-        <span class="total_wrap" v-show="!manageMode">
-          <span class="total">合计：</span>￥{{totalPrice}}</span>
+        <div class="total_wrap" v-show="!manageMode">
+          合计：
+          <div class="total">￥{{totalPrice}}</div>
+        </div>
         <div class="btn" v-show="!manageMode">结算({{totalNum}})</div>
         <div class="btn_delete" @click="deleteGood" v-show="manageMode">删除</div>
       </div>
@@ -54,13 +67,14 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import { diaLogConfirm } from 'base/dialog'
+
 export default {
   props: {},
   data() {
     return {
       disStepChange: false,
-      manageMode:0,
-      isEmpty:false
+      manageMode: 0,
+      isEmpty: false
     }
   },
   computed: {
@@ -122,7 +136,11 @@ export default {
         this.$toast('该宝贝不能减少了呦~')
       }
     },
-    focus() {
+    focus(index) {
+      let dom = document.getElementsByClassName('van-stepper__input')[index]
+      if (!dom.getAttribute('maxlength')) {
+        dom.setAttribute('maxlength', 3)
+      }
       this.disStepChange = true
     },
     blur(event) {
@@ -132,38 +150,50 @@ export default {
       let params = { good_id, checked }
       this.$store.dispatch('reqReviseCheck', params)
     },
-    manage () {
+    manage() {
       this.manageMode = !this.manageMode
     },
-    deleteGood () {
-     let haveSelected = this.userInfo.cart.some(item => item.checked === true)
+    deleteGood() {
+      let haveSelected = this.userInfo.cart.some(item => item.checked === true)
       if (!haveSelected) {
         this.$toast('您还没有选择商品哦~')
-        return 
+        return
       }
-      diaLogConfirm({
-        message:'确定要删除选中的商品吗'
-      },()=>{
-        this.$store.dispatch('reqDeleteAllCheck')
-      })
+      diaLogConfirm(
+        {
+          message: '确定要删除选中的商品吗'
+        },
+        () => {
+          this.$store.dispatch('reqDeleteAllCheck')
+        }
+      )
     },
-    goDetail (good_id,index,event) {
-      let vanIconSuccessDom = document.getElementsByClassName('van-icon-success')[index]
+    goDetail(good_id, index, event) {
+      let vanIconSuccessDom = document.getElementsByClassName(
+        'van-icon-success'
+      )[index]
       let vanCheckbox = document.getElementsByClassName('van-checkbox')[index]
-      let vanStepperMinus = document.getElementsByClassName('van-stepper__minus')[index]
-      let vanStepperInput = document.getElementsByClassName('van-stepper__input')[index]
-      let vanStepperPlus = document.getElementsByClassName('van-stepper__plus')[index]
-      if (event.target === vanIconSuccessDom ||
-          event.target === vanCheckbox ||
-          event.target === vanStepperMinus ||
-          event.target === vanStepperInput ||
-          event.target === vanStepperPlus
+      let vanStepperMinus = document.getElementsByClassName(
+        'van-stepper__minus'
+      )[index]
+      let vanStepperInput = document.getElementsByClassName(
+        'van-stepper__input'
+      )[index]
+      let vanStepperPlus = document.getElementsByClassName('van-stepper__plus')[
+        index
+      ]
+      if (
+        event.target === vanIconSuccessDom ||
+        event.target === vanCheckbox ||
+        event.target === vanStepperMinus ||
+        event.target === vanStepperInput ||
+        event.target === vanStepperPlus
       ) {
         return
       }
       this.$router.push({
-        name:'gooddetail',
-        params: { goods_id:good_id }
+        name: 'gooddetail',
+        params: { goods_id: good_id }
       })
     }
   },
@@ -176,7 +206,7 @@ export default {
 @import '~common/css/mixin.styl'
 #cart
   .header_bg
-    height 1.46rem
+    height 1.5rem
     background-color $theme-red
     padding 0 0.1rem
     .cart_title
@@ -191,14 +221,12 @@ export default {
         font-size 0.15rem
     .delivery_address
       width 75%
+      height 0.18rem
+      line-height 0.18rem
       color #fff
       font-size 0.13rem
       margin-bottom 0.21rem
       ellipsis()
-      .ellip
-        margin-right 0
-      span
-        margin-right 0.14rem
     .good_item
       height 1rem
       margin 0 auto
@@ -237,13 +265,13 @@ export default {
             font-weight bold
             color $theme-red
   .dec
-    font-size .18rem
+    font-size 0.18rem
     color #5f5f5f
-    margin-bottom .16rem
+    margin-bottom 0.16rem
     text-align center
   .dec2
     color $font-color2
-    font-size .13rem
+    font-size 0.13rem
   .cart_control
     position fixed
     left 0
@@ -262,12 +290,14 @@ export default {
       justify-content flex-end
       width 70%
       .total_wrap
-        color $theme-red
-        font-size 0.13rem
-        ellipsis()
+        display flex
+        align-items center
+        height 100%
+        color $font-color
+        font-size 0.15rem
         .total
-          font-size 0.15rem
-          color $font-color
+          font-size 0.13rem
+          color $theme-red
       .btn
         width 1rem
         flex 0 0 1rem
@@ -281,7 +311,7 @@ export default {
         background-image linear-gradient(to right, #eb4450, #f5022d)
         margin-left 0.1rem
       .btn_delete
-        width .57rem
+        width 0.57rem
         height 0.24rem
         color $theme-red
         font-size 0.13rem
@@ -289,7 +319,7 @@ export default {
         justify-content center
         align-items center
         border-radius 0.2rem
-        border .01rem solid $theme-red
+        border 0.01rem solid $theme-red
         background-color #fff
         margin-left 0.1rem
     & >>> .van-checkbox__label

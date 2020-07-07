@@ -1,7 +1,8 @@
 <template>
   <nav class="nav_footer">
     <li v-for="item in navs" :key="item.title" @click="navToggle(item)">
-      <img :src="current_name === item.name ? item.activeUrl : item.url" />
+      <img v-show="current_name !== item.name" :src="item.url" />
+      <img v-show="current_name === item.name" :src="item.activeUrl" />
       <span :class="{activeClass: current_name === item.name}">{{item.title}}</span>
     </li>
   </nav>
