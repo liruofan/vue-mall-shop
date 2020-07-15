@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import Fastclick from 'fastclick'
+import FastClick from 'fastclick'
 import router from './router'
 import store from './store'
 import VueLazyload from 'vue-lazyload'
@@ -8,6 +8,13 @@ import LoadImg from './common/images/loading.gif'
 import ErrImg from './common/images/errImg.jpg'
 import '../src/common/js/rem'
 import 'common/css/index.styl'
+
+
+Vue.use(VueLazyload,{
+  error:ErrImg,
+  loading:LoadImg,
+})
+
 import { 
   Toast,
   Dialog,
@@ -32,11 +39,6 @@ import {
   NoticeBar
 } from 'vant'
 
-Fastclick.attach(document.body)
-Vue.use(VueLazyload,{
-  error:ErrImg,
-  loading:LoadImg,
-})
 Vue.use(Toast)
 Vue.use(Dialog)
 Vue.use(Loading)
@@ -58,7 +60,22 @@ Vue.use(AddressEdit)
 Vue.use(Checkbox)
 Vue.use(Stepper)
 Vue.use(NoticeBar)
+
 Vue.config.productionTip = false
+
+FastClick.attach(document.body)
+
+FastClick.prototype.focus = function (targetElement) {
+  var length
+  if (targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month') {
+    length = targetElement.value.length
+    targetElement.focus()
+    targetElement.setSelectionRange(length, length)
+  } else {
+    targetElement.focus()
+  }
+}
+
 new Vue({
   router,
   store,

@@ -5,6 +5,13 @@ const home = () => import('../views/home/home')
 const category = () => import('../views/category/category')
 const cart = () => import('../views/cart/cart')
 const profile = () => import('../views/profile/profile')
+
+// import Index from 'views/index'
+// import home from 'views/home/home'
+// import category from 'views/category/category'
+// import cart from 'views/cart/cart'
+// import profile from 'views/profile/profile'
+
 import searchDetail from 'views/searchDetail/searchDetail'
 import goodlist from 'views/goods/goodlist'
 import goodDetail from 'views/goods/goodDetail'

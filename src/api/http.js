@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Router from '@/router'
 import { Toast } from 'vant'
-axios.defaults.baseURL = 'http://localhost:8080/api'
+axios.defaults.baseURL = 'http://www.leerofan.cn/api'
 axios.defaults.timeout = 10000
 
 axios.interceptors.request.use(config => {
